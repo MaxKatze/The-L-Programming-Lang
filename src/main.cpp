@@ -1,27 +1,19 @@
-#include "llvm/IR/IRBuilder.h"
-#include "llvm/IR/LLVMContext.h"
-#include "llvm/IR/Module.h"
-#include "llvm/Support/raw_ostream.h"
+// #include "llvm/IR/IRBuilder.h"
+// #include "llvm/IR/LLVMContext.h"
+// #include "llvm/IR/Module.h"
+// #include "llvm/Support/raw_ostream.h"
+#include "ll/machines/state_machine.h"
+#include "ll/machines/state.h"
+#include "iostream"
+#include "ll/lexer/lexer.h"
+#include <print>
+#include <string>
 
 int main() {
-    llvm::LLVMContext context;
-    auto module = std::make_unique<llvm::Module>("L-Language", context);
-    llvm::IRBuilder<> builder(context);
 
-    auto *intType = llvm::Type::getInt64Ty(context);
-    auto *funcType = llvm::FunctionType::get(intType, false);
-
-    auto *func = llvm::Function::Create(
-        funcType,
-        llvm::Function::ExternalLinkage,
-        "main",
-        module.get()
-    );
-
-    auto *block = llvm::BasicBlock::Create(context, "entry", func);
-    builder.SetInsertPoint(block);
-    builder.CreateRet(llvm::ConstantInt::get(intType, 42));
-
-    module->print(llvm::outs(), nullptr);
+    ll::Lexer lex{};
+    lex.init_machines();
+    lex.set_input("let myvariable = 123");
+    auto tokens = lex.parse_input();
     return 0;
 }
