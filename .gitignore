@@ -5,6 +5,7 @@ build/
 cmake-build-*/
 out/
 dist/
+build-asan
 
 ############################################
 # CMake
@@ -50,7 +51,6 @@ Testing/
 *.exe
 *.out
 *.app
-ll
 
 ############################################
 # LLVM specific outputs
